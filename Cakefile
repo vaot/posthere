@@ -49,21 +49,24 @@ log = (message, color, explanation) ->
 task 'run', 'start dev environment', ->
   # Compiles src directory to the app directory
   options = ['-c', '-b', '-w', '-o', 'app', 'src']
-  cmd = which.sync 'coffee'
-  coffee = spawn cmd, options
+  coffee  = spawn 'coffee', options
+
   coffee.stdout.pipe process.stdout
   coffee.stderr.pipe process.stderr
+
   log 'Watching coffee files', green
 
-  # watch_js
+  # Watch JS
   supervisor = spawn 'node', [
     './node_modules/supervisor/lib/cli-wrapper.js',
     '-w',
     'app, views',
+    'js|jade',
     '-e',
     'server'
   ]
+
   supervisor.stdout.pipe process.stdout
   supervisor.stderr.pipe process.stderr
-  log 'Watching js files and running server', green
 
+  log 'Watching js files and running server', green

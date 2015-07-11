@@ -5,7 +5,6 @@ session      = require 'express-session'
 mongoose     = require 'mongoose'
 cookieParser = require 'cookie-parser'
 bodyParser   = require 'body-parser'
-hamlc        = require 'haml-coffee'
 
 ###
 Initialization
@@ -45,14 +44,14 @@ app.use express.static(process.cwd() + '/public')
 console.log('setting session/cookie')
 app.use cookieParser()
 app.use session(
-  secret: 'keyboard cat'
+  secret: '2345876yt89gubvowtuye8obgsv7uo8fi'
   key: 'sid'
   cookie:
     secure: true
 )
 
 # Set View Engine
-app.set 'view engine', 'hamlc'
+app.set 'view engine', 'jade'
 app.use partials()
 
 # Body parser middleware - parses JSON or XML bodies into req.body object

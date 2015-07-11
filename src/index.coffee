@@ -29,30 +29,23 @@ if env is 'production'
 else
   mongoose.connect('mongodb://localhost/example')
 
-
-###
-View initialization
-###
-
 # Add Connect Assets
 app.use assets()
 
 # Set the public folder as static assets
-app.use(express.static(path.join(__dirname, 'assets/stylesheets')))
-app.use(express.static(path.join(__dirname, 'assets/javascripts')))
-app.use(express.static(path.join(__dirname, 'vendor/javascripts')))
-app.use(express.static(path.join(__dirname, 'vendor/stylesheets')))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use express.static(path.join(__dirname, 'assets/images'))
+app.use express.static(path.join(__dirname, 'assets/stylesheets'))
+app.use express.static(path.join(__dirname, 'assets/javascripts'))
 
 app.use sassMiddleware(
-  src: path.join __dirname.replace('app', 'src'), 'assets/stylesheets'
-  dest: path.join __dirname, 'assets/stylesheets'
+  src:  'src/assets/stylesheets'
+  dest: 'app/assets/stylesheets'
   debug: true
 )
 
-
 # Express Session
 console.log('setting session/cookie')
+
 app.use cookieParser()
 app.use session(
   secret: '2345876yt89gubvowtuye8obgsv7uo8fi'
@@ -68,15 +61,11 @@ app.use partials()
 # Body parser middleware - parses JSON or XML bodies into req.body object
 app.use bodyParser()
 
+# Routes
+require('./routes/api/v1/notes')(app)
 
-
-###
-Finalization
-###
-
-# Initialize routes
-routes = require './routes'
-routes(app)
+app.all '/*', (request, response) ->
+  response.render('index', layout: false)
 
 # Export application
 module.exports = app

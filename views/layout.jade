@@ -3,19 +3,22 @@ html(lang="en" ng-app="posthere")
   head
     title Posthere
 
+    meta(charset="utf-8")
+    meta(name="description" content="")
+    meta(name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no")
+
     link(rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.css")
     link(rel='stylesheet' href='/global.css')
 
-  body(layout="column")
+  body(ng-controller="AppController" layout="column")
     md-toolbar(layout="row")
       .md-toolbar-tools
-        md-button.md-icon-button(ng-click="toggleSidenav('left')" hide-gt-sm)
-        h1 PostHere
-
+        md-button(ng-click="toggleSidenav('left')") Nav
     div(layout="row" flex)
-      md-sidenav.md-sidenav-left.md-whiteframe-z2(layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')")
-
+      md-sidenav.md-sidenav-left.md-whiteframe-z2(layout="column"
+                                                  md-component-id="left"
+                                                  md-is-locked-open="$mdMedia('gt-sm')")
       #content(layout="column" flex)
         md-content.md-padding(layout="column" flex)
           block content
@@ -23,11 +26,14 @@ html(lang="en" ng-app="posthere")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js")
+    script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-animate.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-aria.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.js")
 
-    script(src="/init.js")
-    script(src="/config/routes.js")
+    script(type="text/javascript" src="/init.js")
+    script(type="text/javascript" src="/config/routes.js")
+    script(type="text/javascript" src="/controller.js")
 
+    script(type="text/javascript" src="/notes/notes_controller.js")

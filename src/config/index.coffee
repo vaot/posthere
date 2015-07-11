@@ -11,13 +11,11 @@ exports.setEnvironment = (env) ->
       exports.DB_NAME = 'posthere_development'
       exports.DB_USER = 'root'
       exports.DB_PASS = 'root'
-
     when 'testing'
       exports.DEBUG_LOG = true
       exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = true
-
     when 'production'
       exports.DEBUG_LOG = false
       exports.DEBUG_WARN = false

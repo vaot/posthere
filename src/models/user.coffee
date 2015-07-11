@@ -1,10 +1,12 @@
-# mongoose = require 'mongoose'
+mongoose              = require 'mongoose'
+passportLocalMongoose = require 'passport-local-mongoose'
 
-# User = new mongoose.Schema(
-#   name:  String
-#   body:   String
-#   author: String
-#   owner:  String
-# )
+User = new mongoose.Schema(
+  first_name:  String
+  last_name:  String
+  username: String
+  password: String
+)
 
-# module.exports = mongoose.model('User', User)
+User.plugin(passportLocalMongoose)
+module.exports = mongoose.model('User', User)

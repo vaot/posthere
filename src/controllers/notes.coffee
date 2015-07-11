@@ -38,5 +38,3 @@ module.exports =
       else
         res.send err
         res.statusCode = 500
-
-

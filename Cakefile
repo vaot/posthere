@@ -17,7 +17,7 @@ startCmd = pkg.scripts.start
 log = (message, color, explanation) ->
   console.log("#{color} #{message} #{reset} #{explanation}")
 
-task 'compile-coffeescript', 'start dev environment', ->
+task 'watch', 'start dev environment', ->
   # Compiles src directory to the app directory
   options = ['-c', '-b', '-w', '-o', 'app', 'src']
   coffee  = spawn 'coffee', options
@@ -32,8 +32,8 @@ task 'compile-coffeescript', 'start dev environment', ->
     './node_modules/supervisor/lib/cli-wrapper.js',
     '-w',
     'app, views',
-    'js|jade',
     '-e',
+    'js|jade',
     'server'
   ]
 

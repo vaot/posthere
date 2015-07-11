@@ -1,9 +1,17 @@
-Note = require '../models/note'
+Note = require '../../models/note'
 
 module.exports =
   index: (req, res) ->
     Note.find {}, (err, notes) ->
       res.send notes
+
+  show: (req, res) ->
+    Note.findById req.params.id, (err, note) ->
+      if not err
+        res.send note
+      else
+        res.send err
+        res.statusCode = 500
 
   create: (req, res) ->
     note = new Note req.body
@@ -11,14 +19,6 @@ module.exports =
       if not err
         res.send note
         res.statusCode = 201
-      else
-        res.send err
-        res.statusCode = 500
-
-  get: (req, res) ->
-    Note.findById req.params.id, (err, note) ->
-      if not err
-        res.send note
       else
         res.send err
         res.statusCode = 500

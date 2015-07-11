@@ -74,12 +74,8 @@ Finalization
 ###
 
 # Initialize routes
-router = express.Router()
-
-router.get '/', (req, res) ->
-  res.render('index')
-
-app.use('/api/v1', router)
+routes = require './routes'
+routes(app)
 
 # Export application
 module.exports = app

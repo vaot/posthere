@@ -1,29 +1,30 @@
 {
-  "name": "postherev2",
+  "name"   : "postherev2",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "server-start": "node_modules/.bin/supervisor ./bin/www",
+    "server-start"      : "node_modules/.bin/supervisor ./bin/www",
     "watch-coffeescript": "cake run",
-    "start": "npm run server-start & npm run watch-coffeescript"
+    "start"             : "npm run server-start & npm run watch-coffeescript"
   },
   "dependencies": {
-    "body-parser": "~1.10.2",
-    "coffee-script": "~1.7.0",
-    "connect-assets": "~2.5.0",
-    "cookie-parser": "~1.3.3",
-    "express": "~4.11.1",
+    "body-parser"     : "~1.10.2",
+    "coffee-script"   : "~1.7.0",
+    "connect-assets"  : "~2.5.0",
+    "cookie-parser"   : "~1.3.3",
+    "express"         : "~4.11.1",
     "express-partials": "~0.3.0",
-    "express-session": "~1.0.0",
-    "mongoose": "~3.8.0",
-    "morgan": "~1.5.1",
-    "passport": "^0.2.2",
-    "passport-local": "^1.0.0",
-    "serve-favicon": "~2.2.0",
-    "wrench": "~1.5.0"
+    "express-session" : "~1.0.0",
+    "mongoose"        : "~3.8.0",
+    "morgan"          : "~1.5.1",
+    "passport"        : "^0.2.2",
+    "passport-local"  : "^1.0.0",
+    "serve-favicon"   : "~2.2.0",
+    "wrench"          : "~1.5.0",
+    "jade"            : "~1.3.0"
   },
   "devDependencies": {
     "coffee-script": "*",
-    "supervisor": "*"
+    "supervisor"   : "*"
   }
 }

@@ -1,2 +1,2 @@
 exports.index = (req, res) ->
-  res.render 'index'
+  res.send 'hello world'

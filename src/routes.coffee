@@ -1,3 +1,6 @@
+passport      = require 'passport'
+LocalStrategy = require('passport-local').Strategy
+
 # GET, POST, PUT, DELETE methods are going to the same controller methods - we dont care.
 # We are using method names to determine controller actions for clearness.
 
@@ -40,12 +43,14 @@ module.exports = (app) ->
 routeMvc = (controllerName, methodName, req, res, next) ->
   controllerName ?= 'index'
   controller = null
+
   try
     controller = require "./controllers/#{controllerName}"
   catch error
     console.warn("controller not found: #{controllerName}", error)
     next()
     return
+
   if typeof controller[methodName] is 'function'
     actionMethod = controller[methodName].bind(controller)
     actionMethod(req, res, next)

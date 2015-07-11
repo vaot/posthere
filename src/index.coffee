@@ -5,8 +5,8 @@ session        = require 'express-session'
 mongoose       = require 'mongoose'
 cookieParser   = require 'cookie-parser'
 bodyParser     = require 'body-parser'
-sassMiddleware = require 'node-sass-middleware'
 path           = require 'path'
+Mincer         = require 'mincer'
 
 ###
 Initialization
@@ -16,8 +16,8 @@ Initialization
 app = express()
 
 # Define Port & Environment
-app.port = process.env.PORT or process.env.VMC_APP_PORT or 3000
-env = process.env.NODE_ENV or 'development'
+app.port = process.env.PORT || process.env.VMC_APP_PORT || 3000
+env = process.env.NODE_ENV || 'development'
 
 # Config module exports has `setEnvironment` function that sets app settings depending on environment
 config = require './config'
@@ -32,16 +32,11 @@ else
 # Add Connect Assets
 app.use assets()
 
-# Set the public folder as static assets
-app.use express.static(path.join(__dirname, 'assets/images'))
-app.use express.static(path.join(__dirname, 'assets/stylesheets'))
-app.use express.static(path.join(__dirname, 'assets/javascripts'))
+environment = new Mincer.Environment()
+environment.appendPath 'app/assets/javascripts'
+environment.appendPath 'app/assets/stylesheets'
 
-app.use sassMiddleware(
-  src:  'src/assets/stylesheets'
-  dest: 'app/assets/stylesheets'
-  debug: true
-)
+app.use('/assets', Mincer.createServer(environment))
 
 # Express Session
 console.log('setting session/cookie')

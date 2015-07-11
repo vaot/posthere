@@ -63,8 +63,12 @@ Finalization
 ###
 
 # Initialize routes
-routes = require './routes'
-routes(app)
+router = express.Router()
+
+router.get '/', (req, res) ->
+  res.render('index')
+
+app.use('/api/v1', router)
 
 # Export application
 module.exports = app

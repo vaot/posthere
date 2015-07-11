@@ -3,14 +3,19 @@ doctype html
 head
   title Post Here
 
-  != css('app')
+  link(rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
+  link(rel="stylesheet" href="vendor/stylesheets/angular-material.css")
 
 body
   block content
 
-  != js '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'
-  != js '//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js'
+  script(src="vendor/javascripts/jquery.js")
+  script(src="vendor/javascripts/jquery.shapeshift.js")
 
-  != js 'app'
+  script(src="vendor/javascripts/angular/1.4.2/angular.js")
+  script(src="vendor/javascripts/angular/1.4.2/angular-animate.js")
+  script(src="vendor/javascripts/angular/1.4.2/angular-aria.js")
+
+  script(src="vendor/javascripts/angular-material.js")
 
 | </html>

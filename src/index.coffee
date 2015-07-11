@@ -1,10 +1,12 @@
-express      = require 'express'
-assets       = require 'connect-assets'
-partials     = require 'express-partials'
-session      = require 'express-session'
-mongoose     = require 'mongoose'
-cookieParser = require 'cookie-parser'
-bodyParser   = require 'body-parser'
+express        = require 'express'
+assets         = require 'connect-assets'
+partials       = require 'express-partials'
+session        = require 'express-session'
+mongoose       = require 'mongoose'
+cookieParser   = require 'cookie-parser'
+bodyParser     = require 'body-parser'
+sassMiddleware = require 'node-sass-middleware'
+path           = require 'path'
 
 ###
 Initialization
@@ -37,7 +39,16 @@ View initialization
 app.use assets()
 
 # Set the public folder as static assets
-app.use express.static(process.cwd() + '/public')
+app.use(express.static(path.join(__dirname, 'assets/stylesheet')))
+app.use(express.static(path.join(__dirname, 'assets/javascript')))
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.use sassMiddleware(
+  src: path.join __dirname.replace('app', 'src'), 'assets/stylesheet'
+  dest: path.join __dirname, 'assets/stylesheet'
+  debug: true
+)
+
 
 # Express Session
 console.log('setting session/cookie')

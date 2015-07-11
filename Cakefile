@@ -22,8 +22,8 @@ task 'compile-coffeescript', 'start dev environment', ->
   options = ['-c', '-b', '-w', '-o', 'app', 'src']
   coffee  = spawn 'coffee', options
 
-  coffee.stdout.pipe process.stdout
-  coffee.stderr.pipe process.stderr
+  # coffee.stdout.pipe process.stdout
+  # coffee.stderr.pipe process.stderr
 
   log 'Watching coffee files', green
 

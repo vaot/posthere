@@ -19,14 +19,14 @@ Posthere
         - notes
         - tags
         - medias
-    - views/
-      - layout/
-        - app.html
-    - routes/
-    - config/
-    - assets/
-      - images/..
-      - stylesheets/..
-      - javascripts/..
+  - views/
+    - layout/
+      - app.html
+  - routes/
+  - config/
+  - assets/
+    - images/..
+    - stylesheets/..
+    - javascripts/..
 
 http://passportjs.org/

@@ -1,0 +1,10 @@
+!!!
+%head
+  %title
+    Post Here
+
+%body
+  != @body
+
+  = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js'
+  = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'

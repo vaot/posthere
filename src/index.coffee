@@ -21,12 +21,11 @@ env = process.env.NODE_ENV or 'development'
 config = require './config'
 config.setEnvironment(env)
 
-# db_config = "mongodb://#{config.DB_USER}:#{config.DB_PASS}@#{config.DB_HOST}:#{config.DB_PORT}/#{config.DB_NAME}"
-# mongoose.connect db_config
-if env isnt 'production'
-  mongoose.connect 'mongodb://localhost/example'
+dbConfig = '' # "mongodb://#{config.DB_USER}:#{config.DB_PASS}@#{config.DB_HOST}:#{config.DB_PORT}/#{config.DB_NAME}"
+if env is 'production'
+  mongoose.connect(dbConfig)
 else
-  console.log('If you are running in production, you may want to modify the mongoose connect path')
+  mongoose.connect('mongodb://localhost/example')
 
 
 

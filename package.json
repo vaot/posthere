@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "server-start"      : "node_modules/.bin/supervisor ./bin/www",
-    "watch-coffeescript": "cake run",
-    "start"             : "npm run server-start & npm run watch-coffeescript"
+    "server-start": "node_modules/.bin/supervisor ./bin/www",
+    "watch-coffee": "cake compile-coffeescript",
+    "start": "npm run server-start & npm run watch-coffee"
   },
   "dependencies": {
     "body-parser"     : "~1.10.2",

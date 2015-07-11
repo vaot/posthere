@@ -1,5 +1,5 @@
 doctype html
-html(lang="en")
+html(lang="en" ng-app="posthere")
   head
     title Posthere
 
@@ -7,15 +7,24 @@ html(lang="en")
     link(rel="stylesheet" href="vendor/stylesheets/angular-material.css")
     link(rel='stylesheet' href='/global.css')
 
+  body(layout="column" ng-controller="AppController")
+    md-toolbar(layout="row")
+      .md-toolbar-tools
+        md-button.md-icon-button(ng-click="toggleSidenav('left')" hide-gt-sm)
+        h1 PostHere
 
-  body
-    block content
+    div(layout="row" flex)
+      md-sidenav.md-sidenav-left.md-whiteframe-z2(layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')")
 
-    script(src="vendor/javascripts/jquery.js")
-    script(src="vendor/javascripts/jquery.shapeshift.js")
-    script(src="vendor/javascripts/angular/1.4.2/angular.js")
-    script(src="vendor/javascripts/angular/1.4.2/angular-animate.js")
-    script(src="vendor/javascripts/angular/1.4.2/angular-aria.js")
-    script(src="vendor/javascripts/angular-ui-router.js")
-    script(src="vendor/javascripts/angular-material.js")
+      #content(layout="column" flex)
+        md-content.md-padding(layout="column" flex)
+          block content
+
+    script(type="text/javascript" src="vendor/javascripts/jquery.js")
+    script(type="text/javascript" src="vendor/javascripts/jquery.shapeshift.js")
+    script(type="text/javascript" src="vendor/javascripts/angular/1.4.2/angular.js")
+    script(type="text/javascript" src="vendor/javascripts/angular/1.4.2/angular-animate.js")
+    script(type="text/javascript" src="vendor/javascripts/angular/1.4.2/angular-aria.js")
+    script(type="text/javascript" src="vendor/javascripts/angular-ui-router.js")
+    script(type="text/javascript" src="vendor/javascripts/angular-material.js")
 

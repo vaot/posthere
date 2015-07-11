@@ -3,8 +3,8 @@ module.exports = (app) ->
   # Notes
   createApiRoutes(app, 'notes')
 
-  app.all '/*', (req, res) ->
-    res.render 'index'
+  app.all '/*', (request, response) ->
+    response.render 'index', layout: false
 
 createApiRoutes = (app, resource, version = 1) ->
   required = require "./controllers/api/v#{version}/#{resource}"

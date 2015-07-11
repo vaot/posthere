@@ -30,7 +30,6 @@ else
   mongoose.connect('mongodb://localhost/example')
 
 
-
 ###
 View initialization
 ###
@@ -39,13 +38,15 @@ View initialization
 app.use assets()
 
 # Set the public folder as static assets
-app.use(express.static(path.join(__dirname, 'assets/stylesheet')))
-app.use(express.static(path.join(__dirname, 'assets/javascript')))
+app.use(express.static(path.join(__dirname, 'assets/stylesheets')))
+app.use(express.static(path.join(__dirname, 'assets/javascripts')))
+app.use(express.static(path.join(__dirname, 'vendor/javascripts')))
+app.use(express.static(path.join(__dirname, 'vendor/stylesheets')))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use sassMiddleware(
-  src: path.join __dirname.replace('app', 'src'), 'assets/stylesheet'
-  dest: path.join __dirname, 'assets/stylesheet'
+  src: path.join __dirname.replace('app', 'src'), 'assets/stylesheets'
+  dest: path.join __dirname, 'assets/stylesheets'
   debug: true
 )
 

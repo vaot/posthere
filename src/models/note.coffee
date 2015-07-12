@@ -1,12 +1,12 @@
-mongoose = require 'mongoose'
+module.exports  = (mongoose) ->
 
-Note = new mongoose.Schema(
-  title:   String
-  content: String
-  author:  String
-  created:
-    type: Date
-    default: Date.now
-)
+  Note = new mongoose.Schema(
+    title:   String
+    content: String
+    author:  String
+    created:
+      type: Date
+      default: Date.now
+  )
 
-module.exports = mongoose.model('Note', Note)
+  mongoose.model('Note', Note)

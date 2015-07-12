@@ -1,6 +1,4 @@
-Note = require '../../../models/note'
-
-module.exports = (app) ->
+module.exports = (app, Note) ->
   # Index
   app.get '/api/v1/notes/', (request, response) ->
     Note.find (error, notes) ->

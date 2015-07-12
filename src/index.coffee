@@ -7,6 +7,7 @@ cookieParser   = require 'cookie-parser'
 bodyParser     = require 'body-parser'
 path           = require 'path'
 Mincer         = require 'mincer'
+passportLocal  = require 'passport-local-mongoose'
 
 ###
 Initialization
@@ -56,8 +57,13 @@ app.use partials()
 # Body parser middleware - parses JSON or XML bodies into req.body object
 app.use bodyParser()
 
+
+# Models
+Notes = require('./models/note')(mongoose)
+Users = require('./models/user')(mongoose, passportLocal)
+
 # Routes
-require('./routes/api/v1/notes')(app)
+require('./routes/api/v1/notes')(app, Notes)
 
 app.all '/*', (request, response) ->
   response.render('index', layout: false)

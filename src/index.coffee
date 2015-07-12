@@ -6,6 +6,7 @@ mongoose       = require 'mongoose'
 cookieParser   = require 'cookie-parser'
 bodyParser     = require 'body-parser'
 path           = require 'path'
+morgan         = require 'morgan'
 Mincer         = require 'mincer'
 passportLocal  = require 'passport-local-mongoose'
 
@@ -29,6 +30,9 @@ if env is 'production'
   mongoose.connect(dbConfig)
 else
   mongoose.connect('mongodb://localhost/example')
+
+# Logging
+app.use(morgan('dev'))
 
 # Add Connect Assets
 app.use assets()
@@ -66,7 +70,7 @@ Users = require('./models/user')(mongoose, passportLocal)
 require('./routes/api/v1/notes')(app, Notes)
 
 app.all '/*', (request, response) ->
-  response.render('index', layout: false)
+  response.render('layout', layout: false)
 
 # Export application
 module.exports = app

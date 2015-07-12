@@ -7,21 +7,22 @@ html(lang="en" ng-app="posthere")
     meta(name="description" content="")
     meta(name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no")
 
+    link(rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons")
     link(rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.css")
     link(rel='stylesheet' href='/assets/application.css')
 
   body(ng-controller="WelcomeController" layout="column")
-    md-toolbar(layout="row")
-      .md-toolbar-tools
-        md-button(ng-click="toggleSidenav('left')") Nav
+    md-toolbar(layout="row" ui-view="toolbar")
     div(layout="row" flex)
-      md-sidenav.md-sidenav-left.md-whiteframe-z2(layout="column"
+      md-sidenav.md-sidenav-left.md-whiteframe-z2(ui-view="sidenav"
+                                                  layout="column"
                                                   md-component-id="left"
                                                   md-is-locked-open="$mdMedia('gt-sm')")
+
       #content(layout="column" flex)
         md-content.md-padding(layout="column" flex)
-          block content
+          div(ui-view)
 
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js")

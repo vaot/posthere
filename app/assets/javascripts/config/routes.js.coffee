@@ -8,7 +8,10 @@ app.config [
 
 app.config [
   '$stateProvider'
-  ($stateProvider) ->
+  '$locationProvider'
+  ($stateProvider, $locationProvider) ->
+
+    $locationProvider.html5Mode(true)
 
     $stateProvider
       .state 'home',
@@ -36,4 +39,21 @@ app.config [
           'sidenav':
             templateUrl: '/templates/sidenav/index.html'
             controller: 'SidenavController'
+
+      .state 'users',
+        url: '/users'
+        abstract: true
+        controller: ->
+          console.log "parent"
+        template: '<div ui-view></div>'
+
+      .state 'users.new',
+        url: '/new'
+        templateUrl: '/templates/users/new.html'
+        controller: 'UsersController'
+
+      .state 'users.edit',
+        url: '/new'
+        templateUrl: '/templates/users/new.html'
+        controller: 'UsersController'
 ]

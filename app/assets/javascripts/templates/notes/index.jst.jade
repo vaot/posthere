@@ -1,5 +1,2 @@
 .shapeshift(layout="row" layout-wrap layout-margin)
-  md-card(ng-repeat="note in notes" flex="20")
-    md-card-content(ng-include="templateForState(note)")
-    md-card-footer
-      small(ng-bind="note.created")
+  md-card(ng-repeat="note in notes" flex="20" ng-include="templateForState(note)")

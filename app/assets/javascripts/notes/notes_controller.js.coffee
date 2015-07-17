@@ -32,29 +32,39 @@ app.controller 'NotesController', [
       align: 'left'
       selector: 'md-card'
 
-    createNote = (options = {}) ->
-      count = Math.floor(Math.random() * sentences.length)
-      base =
-        created: Date.now()
-        state: 'show'
-        title: 'Hello'
-        author: 'L1h3r'
-        content: sentences[0..count].join(' ')
-      angular.extend(base, options)
+    createNote = ->
+      addNote(
+        state: 'edit'
+        created: new Date()
+      )
+
+    addNote = (note) ->
+      $scope.notes.unshift(note)
 
     initializeShapeshift = ->
+      return unless $scope.notes.length > 0
       $timeout -> $element.find('.shapeshift').shapeshift(shapeshiftOptions())
 
     $rootScope.$on 'note:new', (event) ->
-      $scope.notes.unshift(createNote(state: 'edit', content: ''))
+      createNote()
       initializeShapeshift()
 
-    $scope.notes = (createNote() for i in [0..2])
+    NotesResource.index().$promise.then (data) ->
+      note.state ?= 'show' for note in data.notes
+      $scope.notes = data.notes
+      initializeShapeshift()
 
-    initializeShapeshift()
+    $scope.saveNote = (note) ->
+      NotesResource.save(note).$promise.then ->
+        note.state = 'show'
 
-    # (new NotesResource).$index().then (data) ->
-    #   console.log('[notes] init', data)
+    $scope.deleteNote = (note) ->
+      NotesResource.delete(id: note._id).$promise.then ->
+        $scope.notes = (_note for _note in $scope.notes when _note isnt note)
+        initializeShapeshift()
+
+    $scope.humanizeDate = (date) ->
+      moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
 
     $scope.templateForState = (note) ->
       "/templates/notes/note_#{note.state}.html"

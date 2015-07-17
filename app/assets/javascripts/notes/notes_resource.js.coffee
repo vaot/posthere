@@ -7,7 +7,6 @@ app.service 'NotesResource', [
       index:
         method: 'GET'
         url: 'api/v1/notes/'
-        isArray: true
       show:
         method: 'GET'
       create:

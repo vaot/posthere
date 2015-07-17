@@ -6,6 +6,7 @@
     "start": "cake watch"
   },
   "dependencies": {
+    "bcrypt": "^0.8.3",
     "body-parser": "~1.10.2",
     "coffee-script": "~1.7.0",
     "connect-assets": "~2.5.0",

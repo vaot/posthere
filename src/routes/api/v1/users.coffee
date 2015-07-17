@@ -1,4 +1,4 @@
-module.exports = (app, Users) ->
+module.exports = (app, Users, passport) ->
   app.post '/api/v1/users/', (request, response) ->
     Users.create({
       email: request.body.email,
@@ -17,3 +17,7 @@ module.exports = (app, Users) ->
 
       response.json(user)
     )
+
+
+  app.post '/api/v1/users/login', passport.authenticate('local', { session: false }), (req, res) ->
+    res.json({ id: req.user.id, username: req.user.username })

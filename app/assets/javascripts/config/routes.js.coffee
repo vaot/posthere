@@ -44,16 +44,20 @@ app.config [
         url: '/users'
         abstract: true
         controller: ->
-          console.log "parent"
         template: '<div ui-view></div>'
 
-      .state 'users.new',
-        url: '/new'
+      .state 'users.signup',
+        url: '/signup'
         templateUrl: '/templates/users/new.html'
         controller: 'UsersController'
 
+      .state 'users.login',
+        url: '/login'
+        templateUrl: '/templates/users/login.html'
+        controller: 'UsersController'
+
       .state 'users.edit',
-        url: '/new'
-        templateUrl: '/templates/users/new.html'
+        url: '/edit/:id'
+        templateUrl: '/templates/users/edit.html'
         controller: 'UsersController'
 ]

@@ -1,0 +1,13 @@
+.login(ng-form="user")
+
+  section(layout="row" layout-sm="column" layout-align="center center")
+
+    md-input-container
+      label Username
+      input(type="text" ng-model="user.username" required)
+
+    md-input-container
+      label Password
+      input(type="password" ng-model="user.password" required)
+
+    md-button(class="md-raised md-primary" ng-click="logIn()") Log In

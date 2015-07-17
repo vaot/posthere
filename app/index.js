@@ -78,32 +78,6 @@ app.use(partials());
 
 app.use(bodyParser());
 
-passport.use(new LocalStrategy(function(username, password, done) {
-  return Users.findOne({
-    username: username
-  }, function(err, user) {
-    if (err) {
-      return done(err);
-    }
-    if (!user) {
-      return done(null, false, {
-        message: 'Incorrect username'
-      });
-    }
-    return hash(passport, user.salt, function(err, hash) {
-      if (err) {
-        return done(err);
-      }
-      if (hash === user.hash) {
-        return done(null, user);
-      }
-      return done(null, false, {
-        message: 'Incorrect password'
-      });
-    });
-  });
-}));
-
 passport.serializeUser(function(user, done) {
   return done(null, user.id);
 });
@@ -121,9 +95,37 @@ Notes = require('./models/note')(mongoose);
 
 Users = require('./models/user')(mongoose, passportLocal);
 
+passport.use(new LocalStrategy(function(username, password, done) {
+  return Users.findOne({
+    username: username
+  }, function(err, user) {
+    if (err) {
+      return done(err);
+    }
+    if (!user) {
+      return done(null, false, {
+        message: 'Incorrect username'
+      });
+    }
+    return user.comparePassword(password, (function(_this) {
+      return function(err, isMatch) {
+        if (err) {
+          return done(err);
+        }
+        if (isMatch) {
+          return done(null, user);
+        }
+        return done(null, false, {
+          message: 'Incorrect password'
+        });
+      };
+    })(this));
+  });
+}));
+
 require('./routes/api/v1/notes')(app, Notes);
 
-require('./routes/api/v1/users')(app, Users);
+require('./routes/api/v1/users')(app, Users, passport);
 
 app.all('/*', function(request, response) {
   return response.render('layout', {

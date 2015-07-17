@@ -60,19 +60,6 @@ app.use partials()
 # Body parser middleware - parses JSON or XML bodies into req.body object
 app.use bodyParser()
 
-passport.use new LocalStrategy(
-  (username, password, done) ->
-    Users.findOne username: username, (err, user) ->
-      return done(err) if err
-      return done(null, false, { message: 'Incorrect username'}) if !user
-
-      hash(passport, user.salt, (err, hash) ->
-        return done(err) if err
-        return done(null, user) if hash is user.hash
-        done(null, false, { message: 'Incorrect password' })
-      )
-)
-
 passport.serializeUser (user, done) ->
   done(null, user.id)
 
@@ -86,9 +73,21 @@ passport.deserializeUser (id, done) ->
 Notes = require('./models/note')(mongoose)
 Users = require('./models/user')(mongoose, passportLocal)
 
+passport.use new LocalStrategy(
+  (username, password, done) ->
+    Users.findOne username: username, (err, user) ->
+      return done(err) if err
+      return done(null, false, { message: 'Incorrect username'}) if !user
+
+      user.comparePassword password, (err, isMatch) =>
+        return done(err) if err
+        return done(null, user) if isMatch
+        done(null, false, { message: 'Incorrect password' })
+)
+
 # Routes
 require('./routes/api/v1/notes')(app, Notes)
-require('./routes/api/v1/users')(app, Users)
+require('./routes/api/v1/users')(app, Users, passport)
 
 app.all '/*', (request, response) ->
   response.render('layout', layout: false)

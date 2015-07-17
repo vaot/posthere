@@ -13,6 +13,9 @@ app.service 'UsersResource', [
       update:
         url: 'api/v1/users/:id'
         method: 'PUT'
+      authenticate:
+        url: 'api/v1/users/login'
+        method: 'POST'
     )
 
 ]

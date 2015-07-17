@@ -49,7 +49,7 @@ app.controller 'NotesController', [
       $scope.notes.unshift(createNote(state: 'edit'))
       initializeShapeshift()
 
-    $scope.notes = (createNote() for i in [0..10])
+    $scope.notes = (createNote() for i in [0..2])
 
     initializeShapeshift()
 

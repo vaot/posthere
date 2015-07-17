@@ -12,7 +12,9 @@ html(lang="en" ng-app="posthere")
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.css")
     link(rel='stylesheet' href='/assets/application.css')
 
-  body(ng-controller="WelcomeController" layout="column")
+  body(layout="column")
+    base(href="/")
+
     md-toolbar(layout="row" ui-view="toolbar")
     div(layout="row" flex)
       md-sidenav.md-sidenav-left.md-whiteframe-z2(ui-view="sidenav"
@@ -25,6 +27,7 @@ html(lang="en" ng-app="posthere")
           div(ui-view)
 
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js")
+    script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js")

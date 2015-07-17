@@ -1,1 +1,5 @@
-div(ng-repeat="note in notes" ng-include="/templates/notes/note_show")
+.shapeshift(layout="row" layout-wrap layout-margin)
+  md-card(ng-repeat="note in notes" flex="20")
+    md-card-content(ng-include="templateForState(note)")
+    md-card-footer
+      small(ng-bind="note.created")

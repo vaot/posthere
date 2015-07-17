@@ -1,6 +1,6 @@
 app = angular.module 'posthere'
 
-app.controller 'WelcomeController', [
+app.controller 'HomeController', [
   '$scope'
   ($scope) ->
 

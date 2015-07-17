@@ -2,10 +2,10 @@ app = angular.module 'posthere'
 
 app.controller 'SidenavController', [
   '$scope'
-  ($scope) ->
+  '$rootScope'
+  ($scope, $rootScope) ->
 
     $scope.createNote = ->
-      note = new NoteResource
-      debugger
+      $rootScope.$broadcast('note:new')
 
 ]

@@ -1,7 +1,5 @@
-md-card(flex="20")
-  md-card-content
-    h2.md-title(ng-bind="note.created")
-    p(ng-bind="note.content")
+h2.md-title(ng-bind="note.title")
+p(ng-bind="note.content")
 
-    .md-actions(layout="row" layout-align="end bottom")
-      md-button(ng-bind="note.author" aria-label="{{note.author}}")
+.md-actions(layout="row" layout-align="end bottom")
+  md-button(ng-bind="note.author" aria-label="{{note.author}}")

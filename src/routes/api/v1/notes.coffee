@@ -1,13 +1,11 @@
 module.exports = (app, Note) ->
   # Index
   app.get '/api/v1/notes/', (request, response) ->
-    response.json(({title: 'Hello', author: 'L1h3r', content: 'blah blah blah blah'} for i in [0..10]))
-
-    # Note.find (error, notes) ->
-    #   if error
-    #     response.send(error)
-    #   else
-    #     response.json(notes)
+    Note.find (error, notes) ->
+      if error
+        response.send(error)
+      else
+        response.json(notes)
 
   # Create
   app.post '/api/v1/notes/', (request, response) ->

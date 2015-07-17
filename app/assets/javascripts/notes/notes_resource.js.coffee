@@ -5,20 +5,17 @@ app.service 'NotesResource', [
   ($resource) ->
     $resource('api/v1/notes/:id', id: '@id',
       index:
-        isArray: true
-        url: 'api/v1/notes/'
         method: 'GET'
+        url: 'api/v1/notes/'
+        isArray: true
       show:
-        url: 'api/v1/notes/:id'
         method: 'GET'
       create:
-        url: 'api/v1/notes/'
         method: 'POST'
+        url: 'api/v1/notes/'
       update:
-        url: 'api/v1/notes/:id'
         method: 'PUT'
       delete:
-        url: 'api/v1/notes/:id'
         method: 'DELETE'
     )
 ]

@@ -1,33 +1,39 @@
 app = angular.module 'posthere'
 
 app.config [
+  '$locationProvider'
+  ($locationProvider) ->
+    $locationProvider.html5Mode(true)
+]
+
+app.config [
   '$stateProvider'
   ($stateProvider) ->
 
     $stateProvider
-      .state 'welcome',
+      .state 'home',
+        url: '/'
         views:
-          'toolbar@welcome':
+          '':
+            templateUrl: '/templates/home/index.html'
+            controller: 'HomeController'
+          'toolbar':
             templateUrl: '/templates/toolbar/index.html'
             controller: 'ToolbarController'
-          'sidenav@welcome':
+          'sidenav':
             templateUrl: '/templates/sidenav/index.html'
             controller: 'SidenavController'
 
       .state 'notes',
         url: '/notes'
-        abstract: true
-        template: '<div ui-view></div>'
-
-      .state 'notes.index',
         views:
           '':
             templateUrl: '/templates/notes/index.html'
             controller: 'NotesController'
-          'toolbar@welcome':
+          'toolbar':
             templateUrl: '/templates/toolbar/index.html'
             controller: 'ToolbarController'
-          'sidenav@welcome':
+          'sidenav':
             templateUrl: '/templates/sidenav/index.html'
             controller: 'SidenavController'
 ]

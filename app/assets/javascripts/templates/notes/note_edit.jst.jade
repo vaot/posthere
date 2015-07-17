@@ -1,5 +1,11 @@
-h2.md-title(ng-bind="note.title")
-p(ng-bind="note.content")
+form(name="noteForm")
+  md-input-container
+    label Title
+    input(md-maxlength="30" required name="title" ng-model="note.title")
+
+  md-input-container
+    label Title
+    textarea(md-maxlength="150" required name="title" ng-model="note.content")
 
 .md-actions(layout="row" layout-align="end bottom")
   md-button(ng-bind="note.author" aria-label="{{note.author}}")

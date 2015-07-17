@@ -46,7 +46,7 @@ app.controller 'NotesController', [
       $timeout -> $element.find('.shapeshift').shapeshift(shapeshiftOptions())
 
     $rootScope.$on 'note:new', (event) ->
-      $scope.notes.unshift(createNote(state: 'edit'))
+      $scope.notes.unshift(createNote(state: 'edit', content: ''))
       initializeShapeshift()
 
     $scope.notes = (createNote() for i in [0..2])

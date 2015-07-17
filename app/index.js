@@ -47,7 +47,7 @@ dbConfig = '';
 if (env === 'production') {
   mongoose.connect(dbConfig);
 } else {
-  mongoose.connect('mongodb://localhost/example');
+  mongoose.connect('mongodb://localhost/posthere');
 }
 
 app.use(morgan('dev'));

@@ -1,11 +1,16 @@
-form(name="noteForm")
-  md-input-container
-    label Title
-    input(md-maxlength="30" required name="title" ng-model="note.title")
+md-card-content
+  form(name="noteForm")
+    md-input-container
+      label Title
+      input(md-maxlength="30" ng-required name="title" ng-model="note.title")
 
-  md-input-container
-    label Title
-    textarea(md-maxlength="150" required name="title" ng-model="note.content")
+    md-input-container
+      label Content
+      textarea(md-maxlength="150" ng-required name="content" ng-model="note.content")
+
+    md-input-container
+      label Author
+      input(md-maxlength="15" ng-required name="author" ng-model="note.author")
 
 .md-actions(layout="row" layout-align="end bottom")
-  md-button(ng-bind="note.author" aria-label="{{note.author}}")
+  md-button(aria-label="Save" ng-click="saveNote(note)") Save

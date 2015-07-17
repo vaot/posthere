@@ -31,7 +31,7 @@ dbConfig = '' # "mongodb://#{config.DB_USER}:#{config.DB_PASS}@#{config.DB_HOST}
 if env is 'production'
   mongoose.connect(dbConfig)
 else
-  mongoose.connect('mongodb://localhost/example')
+  mongoose.connect('mongodb://localhost/posthere')
 
 # Logging
 app.use(morgan('dev'))

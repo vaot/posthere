@@ -21,9 +21,7 @@ module.exports = function(app, Users, passport) {
       return response.json(user);
     });
   });
-  return app.post('/api/v1/users/login', passport.authenticate('local', {
-    session: false
-  }), function(req, res) {
+  return app.post('/api/v1/users/login', passport.authenticate('local'), function(req, res) {
     return res.json({
       id: req.user.id,
       username: req.user.username

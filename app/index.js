@@ -50,8 +50,6 @@ if (env === 'production') {
   mongoose.connect('mongodb://localhost/posthere');
 }
 
-app.use(morgan('dev'));
-
 app.use(assets());
 
 environment = new Mincer.Environment();
@@ -64,6 +62,8 @@ app.use('/assets', Mincer.createServer(environment));
 
 app.use(cookieParser());
 
+app.use(bodyParser());
+
 app.use(session({
   secret: '2345876yt89gubvowtuye8obgsv7uo8fi',
   key: 'sid',
@@ -72,11 +72,15 @@ app.use(session({
   }
 }));
 
+app.use(passport.initialize());
+
+app.use(passport.session());
+
+app.use(morgan('dev'));
+
 app.set('view engine', 'jade');
 
 app.use(partials());
-
-app.use(bodyParser());
 
 passport.serializeUser(function(user, done) {
   return done(null, user.id);

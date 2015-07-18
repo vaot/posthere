@@ -33,36 +33,35 @@ if env is 'production'
 else
   mongoose.connect('mongodb://localhost/posthere')
 
-# Logging
-app.use(morgan('dev'))
-
 # Add Connect Assets
 app.use assets()
 
 environment = new Mincer.Environment()
 environment.appendPath 'app/assets/javascripts'
 environment.appendPath 'app/assets/stylesheets'
-
 app.use('/assets', Mincer.createServer(environment))
 
 app.use cookieParser()
+# Body parser middleware - parses JSON or XML bodies into req.body object
+app.use bodyParser()
 app.use session(
   secret: '2345876yt89gubvowtuye8obgsv7uo8fi'
   key: 'sid'
   cookie:
     secure: true
 )
+app.use passport.initialize()
+app.use passport.session()
+
+# Logging
+app.use morgan('dev')
 
 # Set View Engine
 app.set 'view engine', 'jade'
 app.use partials()
 
-# Body parser middleware - parses JSON or XML bodies into req.body object
-app.use bodyParser()
-
 passport.serializeUser (user, done) ->
   done(null, user.id)
-
 
 passport.deserializeUser (id, done) ->
   Users.findById id, (err,user) ->

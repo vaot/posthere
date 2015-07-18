@@ -15,5 +15,6 @@ app.controller 'UsersController', [
     $scope.login = ->
       return if $scope.user.$invalid
       UsersResource.authenticate($scope.user).$promise.then (data)->
+        console.log data
         $state.go('notes')
 ]

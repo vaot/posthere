@@ -19,5 +19,5 @@ module.exports = (app, Users, passport) ->
     )
 
 
-  app.post '/api/v1/users/login', passport.authenticate('local', { session: false }), (req, res) ->
+  app.post '/api/v1/users/login', passport.authenticate('local'), (req, res) ->
     res.json({ id: req.user.id, username: req.user.username })

@@ -2,6 +2,7 @@
 module.exports = function(mongoose) {
   var Note;
   Note = new mongoose.Schema({
+    order: Number,
     title: String,
     content: String,
     author: String,

@@ -1,2 +1,6 @@
 .shapeshift(layout="row" layout-wrap layout-margin)
-  md-card(ng-repeat="note in notes" flex="20" ng-include="templateForState(note)")
+  md-card.note-card(ng-repeat="note in notes"
+                    flex="20"
+                    ng-include="templateForState(note)"
+                    ng-mouseenter="note.hover=true"
+                    ng-mouseleave="note.hover=false")

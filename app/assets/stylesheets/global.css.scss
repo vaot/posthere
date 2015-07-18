@@ -4,11 +4,56 @@
   margin: inherit;
 }
 
+// Users
+
+md-card.login-card,
+md-card.signup-card {
+  max-width: 450px;
+  margin: 16px auto 0;
+}
+
 // Notes
 
-md-card {
+md-card.note-card {
+  width: 200px;
   cursor: default;
   position: absolute !important;
+
+  .md-actions.show-actions {
+    top: 4px;
+    right: 2px;
+    position: absolute;
+
+    .md-button {
+      margin: 0;
+      width: initial;
+      height: initial;
+      font-size: 22px;
+      line-height: 16px;
+      min-height: initial;
+      display: inline-block;
+
+      md-icon {
+        vertical-align: top;
+        color: rgba(10, 24, 77, 0.68);
+        &.delete-note {
+          color: rgba(181, 14, 14, 0.68);
+        }
+      }
+    }
+  }
+
+  md-card-content {
+    padding: 8px 16px;
+
+    p {
+      min-height: 50px;
+    }
+  }
+
+  md-card-footer {
+    padding: 8px 16px;
+  }
 }
 
 // Shapeshift

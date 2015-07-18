@@ -1,6 +1,7 @@
 module.exports  = (mongoose) ->
 
   Note = new mongoose.Schema(
+    order:   Number
     title:   String
     content: String
     author:  String

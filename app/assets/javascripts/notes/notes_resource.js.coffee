@@ -2,7 +2,10 @@ app = angular.module 'posthere'
 
 app.service 'NotesResource', [
   '$resource'
-  ($resource) ->
+  (
+    $resource
+  ) ->
+
     $resource('api/v1/notes/:id', id: '@id',
       index:
         method: 'GET'

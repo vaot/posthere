@@ -3,70 +3,98 @@ app = angular.module 'posthere'
 app.controller 'NotesController', [
   '$scope'
   '$element'
+  '$q'
   '$timeout'
   '$rootScope'
   'NotesResource'
-  ($scope, $element, $timeout, $rootScope, NotesResource) ->
-    sentences = [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-      'Ut ut vulputate neque. Vivamus eleifend laoreet magna sit amet interdum.'
-      'Nullam in tellus aliquet, interdum diam ut, gravida libero.'
-      'Curabitur accumsan mauris elementum libero pretium interdum.'
-      'Quisque tempor et purus eu congue.'
-      'Curabitur vehicula posuere ipsum a eleifend.'
-      'Pellentesque pharetra egestas massa, non vehicula dui aliquam quis.'
-      'Mauris sed ex vel turpis tristique fringilla sed ut arcu.'
-      'Donec ac mauris sed justo posuere venenatis.'
-      'Aenean a imperdiet dui.'
-      'Phasellus scelerisque ligula vitae mattis ultrices.'
-      'Curabitur accumsan nibh eu vestibulum euismod.'
-    ]
+  'UsersService'
+  (
+    $scope
+    $element
+    $q
+    $timeout
+    $rootScope
+    NotesResource
+    UsersService
+  ) ->
+
+    $scope.notes = []
+
+    originalNotes = {}
 
     shapeshiftOptions = ->
       gutterX: 16
       gutterY: 16
       paddingX: 16
       paddingY: 16
+      colWidth: 200
       dragClone: false
-      animateOnInit: true
+      enableResize: true
       align: 'left'
       selector: 'md-card'
 
-    createNote = ->
-      addNote(
-        state: 'edit'
-        created: new Date()
-      )
+    removeNote = (note) ->
+      $scope.notes = (_note for _note in $scope.notes when _note isnt note)
 
-    addNote = (note) ->
+    createNote = (note) ->
       $scope.notes.unshift(note)
+
+    saveNote = (note, newNote) ->
+      if newNote
+        NotesResource.save(note).$promise
+      else
+        NotesResource.update(id: note._id, note).$promise
+
+    cancelNote = (note, newNote) ->
+      if newNote
+        removeNote(note)
+      else
+        $scope.notes[$scope.notes.indexOf(note)] = originalNotes[note._id]
+        delete originalNotes[note._id]
 
     initializeShapeshift = ->
       return unless $scope.notes.length > 0
       $timeout -> $element.find('.shapeshift').shapeshift(shapeshiftOptions())
 
-    $rootScope.$on 'note:new', (event) ->
-      createNote()
+    $scope.createNote = ->
+      createNote(
+        state: 'new'
+        author: UsersService.currentUser('username')
+        created: new Date()
+      )
       initializeShapeshift()
 
-    NotesResource.index().$promise.then (data) ->
-      note.state ?= 'show' for note in data.notes
-      $scope.notes = data.notes
-      initializeShapeshift()
-
-    $scope.saveNote = (note) ->
-      NotesResource.save(note).$promise.then ->
+    $scope.saveNote = (note, newNote = false) ->
+      saveNote(note, newNote).then ->
         note.state = 'show'
+        initializeShapeshift()
+
+    $scope.cancelNote = (note, newNote = false) ->
+      cancelNote(note, newNote)
+      note.state = 'show' unless newNote
+      initializeShapeshift()
+
+    $scope.editNote = (note) ->
+      originalNotes[note._id] = angular.copy(note)
+      note.state = 'edit'
+      initializeShapeshift()
 
     $scope.deleteNote = (note) ->
       NotesResource.delete(id: note._id).$promise.then ->
-        $scope.notes = (_note for _note in $scope.notes when _note isnt note)
+        removeNote(note)
         initializeShapeshift()
 
     $scope.humanizeDate = (date) ->
-      moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+      moment(date).format('dddd, MMMM Do')
 
     $scope.templateForState = (note) ->
       "/templates/notes/note_#{note.state}.html"
+
+    $rootScope.$on('note:new', $scope.createNote)
+
+    NotesResource.index().$promise.then (data) ->
+      note.state   = 'show' for note in data.notes
+      $scope.notes = data.notes
+      initializeShapeshift()
 
 ]

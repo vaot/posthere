@@ -3,15 +3,17 @@ app = angular.module 'posthere'
 
 app.controller 'UsersController', [
   '$scope'
+  '$state'
   'UsersResource'
-  ($scope, UsersResource) ->
+  ($scope, $state, UsersResource) ->
 
-    $scope.signUp = ->
+    $scope.signup = ->
+      return if $scope.user.$invalid
       UsersResource.create($scope.user).$promise.then ->
-        console.log "oiiiii"
+        $scope.login() # TODO
 
-    $scope.logIn = ->
-      console.log "oiii"
+    $scope.login = ->
+      return if $scope.user.$invalid
       UsersResource.authenticate($scope.user).$promise.then (data)->
-        console.log data
+        $state.go('notes')
 ]

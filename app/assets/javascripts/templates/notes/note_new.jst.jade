@@ -8,6 +8,6 @@ md-card-content
       label Content
       textarea(md-maxlength="500" required name="content" ng-model="note.content")
 
-.md-actions.edit-actions(layout="row" layout-align="end bottom")
-  md-button(aria-label="Save" ng-click="saveNote(note)") Save
-  md-button(aria-label="Cancel" ng-click="cancelNote(note)") Cancel
+.md-actions.new-actions(layout="row" layout-align="end bottom")
+  md-button(aria-label="Save" ng-click="saveNote(note, true)") Save
+  md-button(aria-label="Cancel" ng-click="cancelNote(note, true)") Cancel

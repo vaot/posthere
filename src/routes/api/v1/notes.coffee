@@ -1,36 +1,58 @@
 module.exports = (app, Note) ->
   # Index
   app.get '/api/v1/notes/', (request, response) ->
-    Note.find (error, notes) ->
-      if error
-        response.send(error)
-      else
-        response.json(notes: notes)
+    Note.findAll().then (notes) ->
+      notes = notes || []
+      response.json(notes: notes)
 
   # Create
   app.post '/api/v1/notes/', (request, response) ->
-    (new Note(request.body)).save (error, note) ->
-      if error
-        response.send(error)
-        response.statusCode = 500
-      else
+    Note.create(request.body)
+      .then (note) ->
         response.json(note)
         response.statusCode = 201
+      .catch (error) ->
+        response.send(error)
+        response.statusCode = 500
 
   # Update
   app.put '/api/v1/notes/:id', (request, response) ->
-    Note.findByIdAndUpdate request.params.id, request.body, (error, note) ->
-      if error
-        response.send(error)
+    Note.findById(request.params.id)
+      .then (note) ->
+        if note
+          note.updateAttributes(request.body)
+            .then (note) ->
+              response.json(note)
+            .catch (error) ->
+              response.send(error)
+              response.statusCode = 500
+        else
+          response.statusCode = 500
+          response.send({ error: "Resource not found" })
+
+  app.get '/api/v1/notes/:id', (request, response) ->
+    Note.findById(request.params.id)
+      .then (note) ->
+        if note
+          response.json(note)
+        else
+          response.statusCode = 500
+          response.send({ error: "Resource not found" })
+      .catch (error) ->
         response.statusCode = 500
-      else
-        response.json(note)
+        response.send(error)
 
   # Delete
   app.delete '/api/v1/notes/:id', (request, response) ->
-    Note.findByIdAndRemove request.params.id, (error) ->
-      if error
-        response.send(error)
-        response.statusCode = 500
-      else
-        response.send({})
+    Note.findById(request.params.id)
+      .then (note) ->
+        if note
+          note.destroy()
+            .then (note) ->
+              response.json({})
+            .catch (error) ->
+              response.send(error)
+              response.statusCode = 500
+        else
+          response.statusCode = 500
+          response.send({ error: "Resource not found" })

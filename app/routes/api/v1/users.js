@@ -7,18 +7,19 @@ module.exports = function(app, Users, passport) {
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       username: request.body.username
-    }, function(err, user) {
-      if (err) {
-        if (err.code === 11000) {
-          response.json({
-            errors: {
-              unique: "Username and email must be unique"
-            }
-          });
-        }
-        throw err;
+    }).then(function(user) {
+      if (user) {
+        response.json(user);
+        return response.statusCode = 201;
+      } else {
+        response.send({
+          error: "Could not create user"
+        });
+        return response.statusCode = 500;
       }
-      return response.json(user);
+    })["catch"](function(error) {
+      throw error;
+      return response.statusCode = 500;
     });
   });
   return app.post('/api/v1/users/login', passport.authenticate('local'), function(req, res) {

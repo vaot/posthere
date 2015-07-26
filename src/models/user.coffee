@@ -1,45 +1,49 @@
-bcrypt = require 'bcrypt'
 SALT_WORK_FACTOR = 10
 
-module.exports = (mongoose, passportLocal) ->
+module.exports  = (sequelize, DataTypes, bcrypt) ->
 
-  User = new mongoose.Schema(
-    email:
-      unique: true
-      required: 'Email is required'
-      type: String
-    firstName: String
-    lastName:  String
-    username:
-      unique: true
-      type: String
-      required: 'Username is required'
-    password:
-      type: String
-  )
+  User =
+    sequelize.define 'User', {
+      email:
+        type: DataTypes.STRING
+        unique: true
+        allowNull: false
+      firstName:
+        type: DataTypes.STRING
+        allowNull: false
+      lastName:
+        type: DataTypes.STRING
+        allowNull: false
+      username:
+        type: DataTypes.STRING
+        unique: true
+        allowNull: false
+      password:
+        type: DataTypes.STRING
+        allowNull: false
+    }, {
+      timestamps: true
+      instanceMethods:
+        comparePassword: (userTypedPassword, callback) ->
+          bcrypt.compare userTypedPassword, @password, (err, isMatch) =>
 
-  User.methods.comparePassword = (userTypedPassword, callback) ->
+            if err
+              callback(err)
+            else
+              callback(null, isMatch)
+    }
 
-    bcrypt.compare userTypedPassword, @password, (err, isMatch) =>
-      if err
-        callback(err)
+  User.beforeCreate (user, options, done) ->
+    bcrypt.genSalt SALT_WORK_FACTOR, (err, salt) ->
 
-      callback(null, isMatch)
+      return done(err) if err
 
-  User.pre 'save', (next) ->
-    if !@isModified('password')
-      return next
-
-    bcrypt.genSalt SALT_WORK_FACTOR, (err, salt) =>
-      if err
-        return next(err)
-
-      bcrypt.hash @password, salt, (err, hash) =>
+      bcrypt.hash user.password, salt, (err, hash) ->
         if err
-          return next(err)
+          return done(err)
 
-        @password = hash
-        next()
+        user.password = hash
+        done()
 
 
-  mongoose.model('User', User)
+  User

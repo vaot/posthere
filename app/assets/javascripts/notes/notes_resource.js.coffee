@@ -9,12 +9,10 @@ app.service 'NotesResource', [
     $resource('api/v1/notes/:id', id: '@id',
       index:
         method: 'GET'
-        url: 'api/v1/notes/'
       show:
         method: 'GET'
       create:
         method: 'POST'
-        url: 'api/v1/notes/'
       update:
         method: 'PUT'
       delete:

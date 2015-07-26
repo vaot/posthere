@@ -1,13 +1,13 @@
-module.exports  = (mongoose) ->
+module.exports  = (sequelize, DataTypes) ->
 
-  Note = new mongoose.Schema(
-    order:   Number
-    title:   String
-    content: String
-    author:  String
-    created:
-      type: Date
-      default: Date.now
-  )
+  Note =
+    sequelize.define 'Note', {
+      order:   DataTypes.INTEGER
+      title:   DataTypes.STRING
+      content: DataTypes.STRING
+      author:  DataTypes.STRING
+    }, {
+      timestamps: true
+    }
 
-  mongoose.model('Note', Note)
+  Note

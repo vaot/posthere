@@ -43,14 +43,14 @@ app.controller 'NotesController', [
       if newNote
         NotesResource.save(note).$promise
       else
-        NotesResource.update(id: note._id, note).$promise
+        NotesResource.update(id: note.id, note).$promise
 
     cancelNote = (note, newNote) ->
       if newNote
         removeNote(note)
       else
-        $scope.notes[$scope.notes.indexOf(note)] = originalNotes[note._id]
-        delete originalNotes[note._id]
+        $scope.notes[$scope.notes.indexOf(note)] = originalNotes[note.id]
+        delete originalNotes[note.id]
 
     initializeShapeshift = ->
       return unless $scope.notes.length > 0
@@ -75,12 +75,12 @@ app.controller 'NotesController', [
       initializeShapeshift()
 
     $scope.editNote = (note) ->
-      originalNotes[note._id] = angular.copy(note)
+      originalNotes[note.id] = angular.copy(note)
       note.state = 'edit'
       initializeShapeshift()
 
     $scope.deleteNote = (note) ->
-      NotesResource.delete(id: note._id).$promise.then ->
+      NotesResource.delete(id: note.id).$promise.then ->
         removeNote(note)
         initializeShapeshift()
 

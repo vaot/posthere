@@ -6,17 +6,18 @@ module.exports = (app, Users, passport) ->
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       username: request.body.username
-    }, (err, user) ->
-      if err
-        if err.code is 11000
-          response.json(
-            errors:
-              unique: "Username and email must be unique"
-          )
-        throw err
+    })
+      .then (user) ->
+        if user
+          response.json(user)
+          response.statusCode = 201
+        else
+          response.send({ error: "Could not create user" })
+          response.statusCode = 500
 
-      response.json(user)
-    )
+      .catch (error) ->
+        throw error
+        response.statusCode = 500
 
 
   app.post '/api/v1/users/login', passport.authenticate('local'), (req, res) ->

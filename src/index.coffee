@@ -2,16 +2,15 @@ express       = require 'express'
 assets        = require 'connect-assets'
 partials      = require 'express-partials'
 session       = require 'express-session'
-mongoose      = require 'mongoose'
 cookieParser  = require 'cookie-parser'
 bodyParser    = require 'body-parser'
 path          = require 'path'
 morgan        = require 'morgan'
 Mincer        = require 'mincer'
-passportLocal = require 'passport-local-mongoose'
 LocalStrategy = require('passport-local').Strategy
 passport      = require 'passport'
-
+models        = require './models/index'
+bcrypt        = require 'bcrypt'
 ###
 Initialization
 ###
@@ -26,12 +25,6 @@ env = process.env.NODE_ENV || 'development'
 # Config module exports has `setEnvironment` function that sets app settings depending on environment
 config = require './config'
 config.setEnvironment(env)
-
-dbConfig = '' # "mongodb://#{config.DB_USER}:#{config.DB_PASS}@#{config.DB_HOST}:#{config.DB_PORT}/#{config.DB_NAME}"
-if env is 'production'
-  mongoose.connect(dbConfig)
-else
-  mongoose.connect('mongodb://localhost/posthere')
 
 # Add Connect Assets
 app.use assets()
@@ -60,28 +53,33 @@ app.use morgan('dev')
 app.set 'view engine', 'jade'
 app.use partials()
 
+# Models
+Notes = require('./models/note')(models.sequelize, models.Sequelize)
+Users = require('./models/user')(models.sequelize, models.Sequelize, bcrypt)
+
+
 passport.serializeUser (user, done) ->
   done(null, user.id)
 
 passport.deserializeUser (id, done) ->
-  Users.findById id, (err,user) ->
-      done(err) if err
-      done(null, user)
-
-# Models
-Notes = require('./models/note')(mongoose)
-Users = require('./models/user')(mongoose, passportLocal)
+  Users.findById(id).then (err,user) ->
+    done(err) if err
+    done(null, user)
 
 passport.use new LocalStrategy(
   (username, password, done) ->
-    Users.findOne username: username, (err, user) ->
-      return done(err) if err
-      return done(null, false, { message: 'Incorrect username'}) if !user
+    Users.findOne(where: { username: username })
+      .then (user) ->
 
-      user.comparePassword password, (err, isMatch) =>
-        return done(err) if err
-        return done(null, user) if isMatch
-        done(null, false, { message: 'Incorrect password' })
+        return done(null, false, { message: 'Incorrect username'}) if !user
+
+        user.comparePassword password, (err, isMatch) =>
+          return done(err) if err
+          return done(null, user) if isMatch
+          done(null, false, { message: 'Incorrect password' })
+
+      .catch (error) ->
+        return done(err)
 )
 
 # Routes

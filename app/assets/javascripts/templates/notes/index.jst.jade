@@ -1,6 +1,5 @@
-.shapeshift(layout="row" layout-wrap layout-margin)
-  md-card.note-card(ng-repeat="note in notes"
-                    flex="20"
-                    ng-include="templateForState(note)"
-                    ng-mouseenter="note.hover=true"
-                    ng-mouseleave="note.hover=false")
+.shapeshift
+  .col.s2(ng-repeat="note in notes")
+    .card.darken-1(ng-mouseenter="note.hover=true"
+                   ng-mouseleave="note.hover=false"
+                   ng-include="templateForState(note)")

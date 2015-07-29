@@ -50,6 +50,8 @@ environment.appendPath('app/assets/javascripts');
 
 environment.appendPath('app/assets/stylesheets');
 
+environment.appendPath('app/assets/images');
+
 app.use('/assets', Mincer.createServer(environment));
 
 app.use(cookieParser());

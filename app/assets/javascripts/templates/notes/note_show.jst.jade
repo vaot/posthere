@@ -1,13 +1,14 @@
-.md-actions.show-actions(layout="row" layout-align="end start" ng-show="note.hover")
-  md-button.md-icon-button(md-no-ink aria-label="Edit" ng-click="editNote(note)")
-    md-icon settings
-  md-button.md-icon-button(md-no-ink aria-label="Delete" ng-click="deleteNote(note)")
-    md-icon.delete-note delete
+.card-content
+  .note-actions(ng-if="note.hover")
+    a(href="" ng-click="editNote(note)")
+      i.material-icons.grey-text.text-darken-4 settings
+    a(href="" ng-click="deleteNote(note)")
+      i.material-icons.red-text.text-darken-4 delete
 
-md-card-content
-  h2.md-title(ng-bind="note.title")
+  span.card-title.grey-text.text-darken-4(ng-bind="note.title")
   p(ng-bind="note.content")
 
-md-card-footer(layout="row" layout-align="space-between end")
-  small(ng-bind="note.author")
-  small(ng-bind="humanizeDate(note.created)")
+.card-action
+  small.left(ng-bind="note.author")
+  small.right(ng-bind="humanizeDate(note.created)")
+  .clearfix

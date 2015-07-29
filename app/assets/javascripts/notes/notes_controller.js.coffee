@@ -7,7 +7,7 @@ app.controller 'NotesController', [
   '$timeout'
   '$rootScope'
   'NotesResource'
-  'UsersService'
+  'UserService'
   (
     $scope
     $element
@@ -15,12 +15,10 @@ app.controller 'NotesController', [
     $timeout
     $rootScope
     NotesResource
-    UsersService
+    UserService
   ) ->
 
     $scope.notes = []
-
-    originalNotes = {}
 
     shapeshiftOptions = ->
       gutterX: 16
@@ -31,70 +29,73 @@ app.controller 'NotesController', [
       dragClone: false
       enableResize: true
       align: 'left'
-      selector: 'md-card'
+      selector: '.card'
 
-    removeNote = (note) ->
-      $scope.notes = (_note for _note in $scope.notes when _note isnt note)
+    enableShapeshift = ->
+      return unless $scope.notes.length > 0
+      $timeout ->
+        $element.find('.shapeshift').shapeshift(shapeshiftOptions())
 
     createNote = (note) ->
+      cancelActiveNotes()
+      note =
+        state: 'new'
+        author: UserService.currentUser('username')
+        created: new Date
       $scope.notes.unshift(note)
 
-    saveNote = (note, newNote) ->
-      if newNote
-        NotesResource.save(note).$promise
-      else
-        NotesResource.update(id: note.id, note).$promise
+    # TODO
+    cancelActiveNotes = ->
+      for note in $scope.notes when note.state isnt 'show'
+        switch note.state
+          when 'new' then $scope.removeNote(note)
+          when 'edit' then $scope.cancelNote(note)
 
-    cancelNote = (note, newNote) ->
-      if newNote
-        removeNote(note)
-      else
-        $scope.notes[$scope.notes.indexOf(note)] = originalNotes[note.id]
-        delete originalNotes[note.id]
+    initializeNotes = ->
+      NotesResource.index().$promise.then (data) ->
+        note.state   = 'show' for note in data.notes
+        $scope.notes = data.notes
 
-    initializeShapeshift = ->
-      return unless $scope.notes.length > 0
-      $timeout -> $element.find('.shapeshift').shapeshift(shapeshiftOptions())
+    ###
+    ###
 
-    $scope.createNote = ->
-      createNote(
-        state: 'new'
-        author: UsersService.currentUser('username')
-        created: new Date()
-      )
-      initializeShapeshift()
-
-    $scope.saveNote = (note, newNote = false) ->
-      saveNote(note, newNote).then ->
+    # TODO: Toast message errors
+    $scope.saveNote = (note) ->
+      NotesResource.save(note).$promise.then ->
         note.state = 'show'
-        initializeShapeshift()
 
-    $scope.cancelNote = (note, newNote = false) ->
-      cancelNote(note, newNote)
-      note.state = 'show' unless newNote
-      initializeShapeshift()
+    # TODO: Toast message errors
+    $scope.updateNote = (note) ->
+      NotesResource.update(id: note.id, note).$promise.then ->
+        note.state = 'show'
 
     $scope.editNote = (note) ->
-      originalNotes[note.id] = angular.copy(note)
+      cancelActiveNotes()
+      note.original = angular.copy(note)
       note.state = 'edit'
-      initializeShapeshift()
 
+    $scope.cancelNote = (note) ->
+      index = $scope.notes.indexOf(note)
+      $scope.notes[index] = angular.copy(note.original)
+
+    $scope.removeNote = (note) ->
+      $scope.notes = (_note for _note in $scope.notes when _note isnt note)
+
+    # TODO: Toast message errors
     $scope.deleteNote = (note) ->
       NotesResource.delete(id: note.id).$promise.then ->
-        removeNote(note)
-        initializeShapeshift()
-
-    $scope.humanizeDate = (date) ->
-      moment(date).format('dddd, MMMM Do')
+        $scope.removeNote(note)
 
     $scope.templateForState = (note) ->
       "/templates/notes/note_#{note.state}.html"
 
-    $rootScope.$on('note:new', $scope.createNote)
+    $scope.humanizeDate = (date) ->
+      moment(date).format('dddd, MMMM Do')
 
-    NotesResource.index().$promise.then (data) ->
-      note.state   = 'show' for note in data.notes
-      $scope.notes = data.notes
-      initializeShapeshift()
+    $scope.$watch('notes', enableShapeshift, true)
+
+    $rootScope.$on('note:new', createNote)
+
+    initializeNotes()
 
 ]

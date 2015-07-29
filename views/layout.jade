@@ -9,32 +9,44 @@ html(lang="en" ng-app="posthere")
 
     link(rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons")
     link(rel="stylesheet" href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic")
-    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.css")
+    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.css")
     link(rel='stylesheet' href='/assets/application.css')
 
   body(layout="column")
     base(href="/")
 
-    md-toolbar(layout="row" ui-view="toolbar")
-    div(layout="row" flex)
-      md-sidenav.md-sidenav-left.md-whiteframe-z2(ui-view="sidenav"
-                                                  layout="column"
-                                                  md-component-id="left"
-                                                  md-is-locked-open="$mdMedia('gt-sm')")
+    nav.row.red.darken-4
+      .nav-wrapper.col.s12(ng-controller="HomeController") <!-- TODO -->
+        a.brand-logo(ui-sref="home") PostHere
+        ul#nav-mobile.right
+          li
+            a(ui-sref="notes") Notes
+          li
+            a(href="" ng-click="createNote()") Create Note
+          li
+            a(ui-sref="users.login" ng-if="!loggedIn()") Login
+          li
+            a(ui-sref="users.logout" ng-if="loggedIn()") Logout
+          li
+            a(ui-sref="users.signup" ng-if="!loggedIn()") Signup
 
-      #content(layout="column" flex)
-        md-content.md-padding(layout="column" flex)
-          div(ui-view)
+    .layout
+      .container.full-width
+        .row
+          .col.s12
+            div(ui-view="content")
 
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.shapeshift/2.0/jquery.shapeshift.js")
+    //- script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/draggabilly/1.2.4/draggabilly.pkgd.js")
+    //- script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/packery/1.4.2/packery.pkgd.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-animate.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-aria.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js")
-    script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.10.0/angular-material.js")
+    script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js")
 
     script(type="text/javascript" src="/assets/application.js")

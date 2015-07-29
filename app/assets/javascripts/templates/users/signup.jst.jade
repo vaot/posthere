@@ -1,0 +1,20 @@
+.signup
+  .row.card
+    form.col.s12(name="user")
+      .row
+        .input-field.col.s6
+          input.validate(type="text" ng-model="user.username")
+          label Username
+        .input-field.col.s6
+          input.validate(type="email" ng-model="user.email")
+          label Email
+      .row
+        .input-field.col.s6
+          input.validate(type="password" ng-model="user.password")
+          label Password
+        .input-field.col.s6
+          input.validate(type="password" ng-model="user.confirmPassword")
+          label Confirm Password
+      .row
+        .input-field.col.s6.center-align
+          button.btn.waves-effect.waves-light(type="submit" ng-click="signup()") Sign Up

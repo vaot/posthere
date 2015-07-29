@@ -3,5 +3,4 @@ app = angular.module "posthere", [
   'ngAnimate'
   'ngResource'
   'ui.router'
-  'ngMaterial'
 ]

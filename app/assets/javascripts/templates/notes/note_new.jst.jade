@@ -1,13 +1,17 @@
-md-card-content
-  form(name="noteForm")
-    md-input-container
-      label Title
-      input(md-maxlength="50" required name="title" ng-model="note.title")
+.card-content
+  .row
+    form.col.s12(name="noteForm")
+      .row
+        .input-field.col.s12
+          input.validate(type="text" ng-model="note.title")
+          label Title
+      .row
+        .input-field.col.s12
+          textarea.validate.materialize-textarea(ng-model="note.content")
+          label Content
 
-    md-input-container
-      label Content
-      textarea(md-maxlength="500" required name="content" ng-model="note.content")
-
-.md-actions.new-actions(layout="row" layout-align="end bottom")
-  md-button(aria-label="Save" ng-click="saveNote(note, true)") Save
-  md-button(aria-label="Cancel" ng-click="cancelNote(note, true)") Cancel
+.card-action
+  .right
+    a(href="" ng-click="saveNote(note)") Save
+    a(href="" ng-click="removeNote(note)") Cancel
+  .clearfix

@@ -1,12 +1,12 @@
-md-card.login-card
-  md-card-content
-    form(name="user" layout="row" layout-align="space-between center" layout-wrap)
-      md-input-container(flex="45")
-        label Username
-        input(type="text" ng-model="user.username" required)
-
-      md-input-container(flex="45")
-        label Password
-        input(type="password" ng-model="user.password" required)
-
-      md-button.md-raised.md-primary(flex="99" ng-click="login()") Log In
+.login
+  .row.card
+    form.col.s12(name="user")
+      .row
+        .input-field.col.s4
+          input.validate(type="text" ng-model="user.username")
+          label Username
+        .input-field.col.s4
+          input.validate(type="password" ng-model="user.password")
+          label Password
+        .input-field.col.s4
+          button.btn.waves-effect.waves-light(type="submit" ng-click="login()") Log In

@@ -1,6 +1,6 @@
 app = angular.module 'posthere'
 
-app.service 'UsersResource', [
+app.service 'UserResource', [
   '$resource'
   ($resource) ->
     $resource('api/v1/users/:id', id: '@id',
@@ -11,7 +11,7 @@ app.service 'UsersResource', [
         method: 'POST'
       update:
         method: 'PUT'
-      authenticate:
+      login:
         url: 'api/v1/users/login'
         method: 'POST'
     )

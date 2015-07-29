@@ -11,62 +11,38 @@ app.config [
       .state 'home',
         url: '/'
         views:
-          '':
+          'content@':
             templateUrl: '/templates/home/index.html'
             controller: 'HomeController'
-          'toolbar':
-            templateUrl: '/templates/toolbar/index.html'
-            controller: 'ToolbarController'
-          'sidenav':
-            templateUrl: '/templates/sidenav/index.html'
-            controller: 'SidenavController'
 
       .state 'notes',
         url: '/notes'
         views:
-          '':
+          'content@':
             templateUrl: '/templates/notes/index.html'
             controller: 'NotesController'
-          'toolbar':
-            templateUrl: '/templates/toolbar/index.html'
-            controller: 'ToolbarController'
-          'sidenav':
-            templateUrl: '/templates/sidenav/index.html'
-            controller: 'SidenavController'
 
       .state 'users',
-        url: '/users'
         abstract: true
         template: '<div ui-view></div>'
 
       .state 'users.signup',
         url: '/signup'
         views:
-          '':
-            templateUrl: '/templates/users/new.html'
-            controller: 'UsersController'
-          'toolbar@':
-            templateUrl: '/templates/toolbar/index.html'
-            controller: 'ToolbarController'
-          'sidenav@':
-            templateUrl: '/templates/sidenav/index.html'
-            controller: 'SidenavController'
+          'content@':
+            templateUrl: '/templates/users/signup.html'
+            controller: 'UserController'
 
       .state 'users.login',
         url: '/login'
         views:
-          '':
+          'content@':
             templateUrl: '/templates/users/login.html'
-            controller: 'UsersController'
-          'toolbar@':
-            templateUrl: '/templates/toolbar/index.html'
-            controller: 'ToolbarController'
-          'sidenav@':
-            templateUrl: '/templates/sidenav/index.html'
-            controller: 'SidenavController'
+            controller: 'UserController'
 
-      .state 'users.edit',
-        url: '/edit/:id'
-        templateUrl: '/templates/users/edit.html'
-        controller: 'UsersController'
+      .state 'users.logout',
+        url: '/logout'
+        controller: (UserService) ->
+          UserService.logout()
+
 ]

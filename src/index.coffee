@@ -32,17 +32,19 @@ app.use assets()
 environment = new Mincer.Environment()
 environment.appendPath 'app/assets/javascripts'
 environment.appendPath 'app/assets/stylesheets'
-app.use('/assets', Mincer.createServer(environment))
+environment.appendPath 'app/assets/images'
+app.use '/assets', Mincer.createServer(environment)
 
 app.use cookieParser()
-# Body parser middleware - parses JSON or XML bodies into req.body object
 app.use bodyParser()
+
 app.use session(
   secret: '2345876yt89gubvowtuye8obgsv7uo8fi'
   key: 'sid'
   cookie:
     secure: true
 )
+
 app.use passport.initialize()
 app.use passport.session()
 

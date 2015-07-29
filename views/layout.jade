@@ -30,11 +30,10 @@ html(lang="en" ng-app="posthere")
           li
             a(ui-sref="users.signup" ng-if="!loggedIn()") Signup
 
-    .layout
-      .container.full-width
-        .row
-          .col.s12
-            div(ui-view="content")
+    .container.full-width
+      .row
+        .col.s12
+          div(ui-view="content")
 
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js")
     script(type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js")

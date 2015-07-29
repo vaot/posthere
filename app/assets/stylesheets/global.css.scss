@@ -8,37 +8,10 @@ html, body {
   height: 100%;
 }
 
-.layout {
-  margin-top: -20px;
-  position: relative;
-  height: calc(100% - 60px);
-
-  &:before, &:after {
-    content: '';
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
-  &:before {
-    background-color: rgba(0,0,0,0.6);
-  }
-
-  &:after {
-    background-image: url('/assets/background.jpg');
-    background-attachment: fixed;
-    background-size: cover;
-    opacity: 0.35;
-  }
-}
-
 .container.full-width {
   width: 100%;
   max-width: 100%;
-  margin: 0 -15px;
+  padding: 0 0.75rem;
 }
 
 // Users

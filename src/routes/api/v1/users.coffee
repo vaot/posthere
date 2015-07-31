@@ -21,4 +21,24 @@ module.exports = (app, Users, passport) ->
 
 
   app.post '/api/v1/users/login', passport.authenticate('local'), (req, res) ->
-    res.json({ id: req.user.id, username: req.user.username })
+    res.json({ loggedIn: true })
+
+  app.get '/api/v1/users/logout', (req, res) ->
+    req.session.destroy (error) ->
+      if error
+        # TO DO: Display error ?
+        res.json({ loggedOut: false })
+      else
+        res.json({ loggedOut: true })
+
+  app.get '/api/v1/users/me', (req, res) ->
+    if req.isAuthenticated()
+      res.json({
+        id: req.user.id
+        username: req.user.username
+        firstName: req.user.firstName
+        lastName: req.user.lastName
+      })
+    else
+      res.statusCode = 401
+      res.send({ error: "Unauthorized" })

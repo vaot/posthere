@@ -1,12 +1,12 @@
-module.exports = (app, Note) ->
+module.exports = (app, Note, userService) ->
   # Index
-  app.get '/api/v1/notes/', (request, response) ->
+  app.get '/api/v1/notes/', userService.ensureAuthenticated, (request, response) ->
     Note.findAll().then (notes) ->
       notes = notes || []
       response.json(notes: notes)
 
   # Create
-  app.post '/api/v1/notes/', (request, response) ->
+  app.post '/api/v1/notes/', userService.ensureAuthenticated, (request, response) ->
     Note.create(request.body)
       .then (note) ->
         response.json(note)
@@ -16,7 +16,7 @@ module.exports = (app, Note) ->
         response.statusCode = 500
 
   # Update
-  app.put '/api/v1/notes/:id', (request, response) ->
+  app.put '/api/v1/notes/:id', userService.ensureAuthenticated, (request, response) ->
     Note.findById(request.params.id)
       .then (note) ->
         if note
@@ -30,7 +30,7 @@ module.exports = (app, Note) ->
           response.statusCode = 500
           response.send({ error: "Resource not found" })
 
-  app.get '/api/v1/notes/:id', (request, response) ->
+  app.get '/api/v1/notes/:id', userService.ensureAuthenticated, (request, response) ->
     Note.findById(request.params.id)
       .then (note) ->
         if note
@@ -43,7 +43,7 @@ module.exports = (app, Note) ->
         response.send(error)
 
   # Delete
-  app.delete '/api/v1/notes/:id', (request, response) ->
+  app.delete '/api/v1/notes/:id', userService.ensureAuthenticated, (request, response) ->
     Note.findById(request.params.id)
       .then (note) ->
         if note

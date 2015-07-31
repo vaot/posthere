@@ -14,6 +14,12 @@ app.service 'UserResource', [
       login:
         url: 'api/v1/users/login'
         method: 'POST'
+      logout:
+        url: 'api/v1/users/logout'
+        method: 'GET'
+      current:
+        url: 'api/v1/users/me'
+        method: 'GET'
     )
 
 ]

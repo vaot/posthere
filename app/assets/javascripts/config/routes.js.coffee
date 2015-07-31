@@ -42,7 +42,12 @@ app.config [
 
       .state 'users.logout',
         url: '/logout'
-        controller: (UserService) ->
-          UserService.logout()
-
+        views:
+          'content@':
+            templateUrl: '/templates/home/index.html'
+            controller: [
+              'UserService'
+              (UserService) ->
+                UserService.logout()
+            ]
 ]

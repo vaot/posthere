@@ -11,6 +11,11 @@ LocalStrategy = require('passport-local').Strategy
 passport      = require 'passport'
 models        = require './models/index'
 bcrypt        = require 'bcrypt'
+RedisStore    = require('connect-redis')(session)
+redis         = require 'redis'
+redisClient   = redis.createClient()
+userService   = require './services/user'
+
 ###
 Initialization
 ###
@@ -39,10 +44,8 @@ app.use cookieParser()
 app.use bodyParser()
 
 app.use session(
+  store: new RedisStore({ client: redisClient })
   secret: '2345876yt89gubvowtuye8obgsv7uo8fi'
-  key: 'sid'
-  cookie:
-    secure: true
 )
 
 app.use passport.initialize()
@@ -64,8 +67,8 @@ passport.serializeUser (user, done) ->
   done(null, user.id)
 
 passport.deserializeUser (id, done) ->
-  Users.findById(id).then (err,user) ->
-    done(err) if err
+  Users.findById(id).then (user) ->
+    done({error: "Could not find user #{id}"}) unless user
     done(null, user)
 
 passport.use new LocalStrategy(
@@ -85,7 +88,7 @@ passport.use new LocalStrategy(
 )
 
 # Routes
-require('./routes/api/v1/notes')(app, Notes)
+require('./routes/api/v1/notes')(app, Notes, userService)
 require('./routes/api/v1/users')(app, Users, passport)
 
 app.all '/*', (request, response) ->
